@@ -8,13 +8,14 @@
       <div class="virtual-keyboard">
         <div class="rowZero">
           <input type="button" value="`" class="Backtick" id="Backtick">
-          <input type="button" v-for="key in keys" :key="key" @click="press(key)" v-if="!symbols_enabled" :value="key">
+          <input type="button" v-for="key in keys" :key="key" @click="press(key)" v-if="!symbols_enabled" :value="key"
+            :id="key">
           <input type="button" v-for="symbol in symbols" :key="symbol" @click="press(symbol)" v-if="symbols_enabled"
             :value="symbol">
           <input type="button" value="Backspace" class="Backspace" @click="clear()" id="Backspace">
         </div>
         <div class="rowOne">
-          <input type="button" id="Tab" value="Tab"></input>
+          <input type="button" id="Tab" value="Tab">
           <input type="button" :value="letter" v-if="smallcase" v-for="letter in letters[0]" :key="letter" ref="key"
             @click="press(letter)" />
           <input type="button" :value="letter" v-if="!smallcase" v-for="letter in letters_capital[0]" :key="letter"
@@ -65,9 +66,22 @@ export default {
   },
   methods: {
     press(key) {
-      //console.log(key)
+
+      //console.log(this.$refs.key)
+      //console.log()
       this.value = `${this.value}${key}`;
-      console.log(this.value);
+      //console.log(this.value);
+      const index = this.findKey(this.$refs.key, key)
+      //console.log("index is", index)
+      this.$refs.key[index].style.backgroundColor = "white"
+      setTimeout(() => { this.$refs.key[index].style.backgroundColor = "#1b1b1b" }, 50)
+
+      if (this.keys.includes(key)) {
+        console.log("inside if ", this.key.includes(key.toString()))
+        const element = document.getElementById(`${key}`)
+        element.style.backgroundColor = "#FFFFFF"
+        setTimeout(() => { element.style.backgroundColor = "#1b1b1b" }, 50)
+      }
     },
     newLine() {
       console.log("adding new line")
