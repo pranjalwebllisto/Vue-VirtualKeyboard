@@ -1,6 +1,8 @@
 <template >
   <div>
-
+    <div class="heading">
+      <h2 class="heading-secondary">Virtual keyboard</h2>
+    </div>
     <div class="inputfield">
       <textarea id="txtBox" placeholder="Click here to start typing" class="form-control" v-model="value" cols="30"
         rows="3" v-on:keydown="keyPressed" @click="enableKeyboard"></textarea>
@@ -444,13 +446,38 @@ export default {
 
 }
 
+.heading {
 
+  background-color: #00ffbf;
+  width: 40%;
+  height: 50px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-top: 1em;
+  padding-left: 2em
+}
 
 #txtBox:focus {
   box-shadow: none;
   outline: none;
   border-color: #ced4da;
 
+}
+
+.heading-secondary {
+  background-image: linear-gradient(to right, #7ed56f, #28b485);
+  color: transparent;
+  -webkit-background-clip: text;
+
+  text-transform: uppercase;
+  transition: all 0.2s;
+
+
+}
+
+.heading-secondary:hover {
+  background-image: linear-gradient(to right, #28b485, #7ed56f);
+  text-shadow: 5px 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .container {
@@ -538,9 +565,14 @@ h1 {
   height: auto;
   padding: 2em;
   border-radius: 10px;
+  border-top-left-radius: 0px;
 }
 
 #Poweroff {
   background-color: red !important;
+}
+
+.virtual-keyboard {
+  box-shadow: 0px 5px 10px 5px #353434;
 }
 </style>
