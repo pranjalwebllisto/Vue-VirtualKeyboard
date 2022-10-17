@@ -64,7 +64,7 @@
               @click="pressSpacebar(doublequote , `Doublequote`)" v-if="symbols_enabled">
 
 
-            <input type="button" @click="pressSpacebar('\r\n' , `Enter`)" id="Enter" value="Enter">
+            <input type="button" @click="pressSpacebar('\r\n' , `Enter`)" id="Enter" value="    Enter    ">
           </div>
           <div class="rowThree">
             <input type="button" :value="letter" v-if="smallcase" v-for="letter in letters[2]" :key="letter" ref="key"
@@ -512,7 +512,10 @@ h1 {
 }
 
 .virtual-keyboard input[type='button'] {
-  padding: 10px 20px;
+  /* padding: 10px 20px; */
+  height: 50px;
+  min-width: 60px;
+  width: auto;
   margin: 2px;
 
   border-radius: 5px;
