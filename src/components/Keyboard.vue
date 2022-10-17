@@ -539,4 +539,8 @@ h1 {
   padding: 2em;
   border-radius: 10px;
 }
+
+#Poweroff {
+  background-color: red !important;
+}
 </style>
