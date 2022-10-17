@@ -1,7 +1,6 @@
 <template >
   <div>
-    <!-- <input type="text" class="form-control" v-model="value" id="txtBox" placeholder="Press any button"
-      v-on:keydown="keyPressed" /> -->
+
 
     <textarea id="txtBox" placeholder="Click here to start typing" class="form-control" v-model="value" cols="30"
       rows="10" v-on:keydown="keyPressed" @click="enableKeyboard"></textarea>
@@ -63,8 +62,8 @@
           <input type="button" @click="pressSpacebar('\r\n' , `Enter`)" id="Enter" value="Enter">
         </div>
         <div class="rowThree">
-          <input type="button" :value="letter" v-if="smallcase" v-for="letter in letters[2]" :key="letter" ref="key"
-            @click="press(letter)" />
+          <input type="button" :valconsole.log(this.value)ue="letter" v-if="smallcase" v-for="letter in letters[2]"
+            :key="letter" ref="key" @click="press(letter)" />
           <input type="button" :value="letter" v-if="!smallcase" v-for="letter in letters_capital[2]" :key="letter"
             ref="key" @click="press(letter)" />
           <input type="button" value="," class="Comma" id="Comma" @click="pressSpacebar(',' , `Comma`)"
@@ -119,9 +118,10 @@ export default {
       buttonTheme: "btn-danger"
     };
   },
+
   methods: {
     enableKeyboard() {
-
+      document.getElementById('txtBox').focus();
       this.showKeyboard = true
     },
     disableKeyboard(id) {
@@ -130,15 +130,14 @@ export default {
     },
     //when on screen key is pressed , this methods append value to existing string and highlights the pressed key
     press(key) {
-      //const el = document.querySelectorAll('input[type=button]')
-      //el.style.backgroundColor = "white"
-      //setTimeout(() => { el.style.backgroundColor = "#1b1b1b" }, 50)
       //checking if a number is pressed on virtual keyboard and exists in array , then  highlight the respective numeric on virtual keyboard
+      debugger;
       if (this.keys.includes(key)) {
         this.highlightById(key);
         this.value = `${this.value}${key}`;
+
       }
-      if (this.symbols.includes(key)) {
+      else if (this.symbols.includes(key)) {
         console.log("inside symbols", this.$refs.key)
         this.value = `${this.value}${key}`;
         let symbol_index = 0;
@@ -166,39 +165,60 @@ export default {
     //this function triggers when oncreen key "capslock" is clicked , switches lower case to upper case and vice versa
     toggleLetters() {
       this.smallcase = !this.smallcase;
+      if (!this.smallcase) {
+        const element = document.getElementById('Capslock')
+        element.style.backgroundColor = "white";
+        element.style.color = "#1b1b1b"
+        element.style.transition = "all 0.5s"
+      }
+      else {
+
+        const element = document.getElementById('Capslock')
+        element.style.backgroundColor = "#1b1b1b";
+        element.style.color = "white"
+        element.style.transition = "all 0.5s"
+
+      }
     },
     highlightById(id) {
       const element = document.getElementById(id)
       element.style.backgroundColor = "#FFFFFF"
       setTimeout(() => { element.style.backgroundColor = "#1b1b1b" }, 50)
-
     },
     //this method add single whitespace when spacebar is pressed and add 4 whitespaced when tab key is pressed to existing string when oncreen key "spacebar" is pressed
     pressSpacebar(space, id) {
       if (id === "Space") {
         this.highlightById(id)
+        document.getElementById('txtBox').focus();
         this.value = this.value + space;
 
       }
       if (id === "SquareBracketOpen") {
         this.highlightById(id)
+        document.getElementById('txtBox').focus();
         this.value = this.value + space
       }
       if (id === "ParanthesisOpen") {
         this.highlightById(id)
         this.value = this.value + space
+        document.getElementById('txtBox').focus();
+
       }
       if (id === "Backslash") {
         this.highlightById(id)
         this.value = this.value + space
+        document.getElementById('txtBox').focus();
+
       }
       if (id === "Pipe") {
         this.highlightById(id)
         this.value = this.value + space
+        document.getElementById('txtBox').focus();
       }
       if (id === "Semicolon") {
         this.highlightById(id)
         this.value = this.value + space
+        document.getElementById('txtBox').focus();
       }
       if (id === "Colon") {
         this.highlightById(id)
@@ -207,65 +227,78 @@ export default {
       if (id === "Comma") {
         this.highlightById(id)
         this.value = this.value + space
+        document.getElementById('txtBox').focus();
       }
       if (id === "Lessthan") {
         this.highlightById(id)
         this.value = this.value + space
+        document.getElementById('txtBox').focus();
       }
       if (id === "Fullstop") {
         this.highlightById(id)
         this.value = this.value + space
+        document.getElementById('txtBox').focus();
       }
       if (id === "Greaterthan") {
         this.highlightById(id)
         this.value = this.value + space
+        document.getElementById('txtBox').focus();
       }
       if (id === "Forwardslash") {
         this.highlightById(id)
         this.value = this.value + space
+        document.getElementById('txtBox').focus();
       }
       if (id === "Questionmark") {
         this.highlightById(id)
-        this.value = this.value + space
+        this.value = this.value + spac
+        document.getElementById('txtBox').focus();
+
       }
       if (id === "Singlequote") {
         this.highlightById(id)
+        document.getElementById('txtBox').focus();
         this.value = this.value + space
       }
       if (id === "Doublequote") {
         this.highlightById(id)
+        document.getElementById('txtBox').focus();
         this.value = this.value + space
       }
       if (id === "SquareBracketClose") {
         console.log("inside square bracket close")
         this.highlightById(id)
+        document.getElementById('txtBox').focus();
+
         this.value = this.value + space
       }
       if (id === "ParanthesisClose") {
         this.highlightById(id)
+        document.getElementById('txtBox').focus();
         this.value = this.value + space
       }
       if (id === "Tab") {
         this.highlightById(id)
-        this.value = this.value + space
-      }
-      if (id === "Tab") {
-        this.highlightById(id)
+        document.getElementById('txtBox').focus();
         this.value = this.value + space
       }
       if (id === "Backspace") {
         this.highlightById(id)
+        document.getElementById('txtBox').focus();
         this.value = this.value.substring(0, this.value.length - 1);
       }
       if (id === "Tilde") {
         this.highlightById(id)
+        document.getElementById('txtBox').focus();
         this.value = this.value + space
       }
       if (id === "Enter") {
         this.highlightById(id)
+        document.getElementById('txtBox').focus();
         this.value = this.value + '\r\n';
       }
       if (id === "Backtick") {
+        document.getElementById('txtBox').focus();
         this.highlightById(id)
         this.value = this.value + '`'
       }
@@ -277,9 +310,7 @@ export default {
     },
     //this method highlights the respective key on virtual keyboard when the same key on physical keybord is pressed
     keyPressed(event) {
-      //console.log(event.key)
       document.getElementById('txtBox').focus()
-
 
       if (event.key === "Backspace") {
 
@@ -316,8 +347,20 @@ export default {
       if (event.key === "CapsLock") {
         this.toggleLetters()
         this.keypressed = event.key.toString();
-        document.getElementById("Capslock").style.backgroundColor = "#FFFFFF"
-        setTimeout(() => { document.getElementById("Capslock").style.backgroundColor = "#1b1b1b" }, 50)
+        if (!this.smallcase) {
+          const element = document.getElementById('Capslock')
+          element.style.backgroundColor = "white";
+          element.style.color = "#1b1b1b"
+          element.style.transition = "all 0.5s"
+        }
+        else {
+
+          const element = document.getElementById('Capslock')
+          element.style.backgroundColor = "#1b1b1b";
+          element.style.color = "white"
+          element.style.transition = "all 0.5s"
+
+        }
       }
       else {
         if (this.keys.includes(parseInt(event.key))) {
@@ -435,5 +478,9 @@ h1 {
   color: white;
   text-align: center;
   font-size: 1em;
+}
+
+#Space {
+  width: 50%;
 }
 </style>
