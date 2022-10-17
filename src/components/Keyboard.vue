@@ -1,98 +1,104 @@
 <template >
   <div>
 
+    <div class="inputfield">
+      <textarea id="txtBox" placeholder="Click here to start typing" class="form-control" v-model="value" cols="30"
+        rows="3" v-on:keydown="keyPressed" @click="enableKeyboard"></textarea>
+    </div>
 
-    <textarea id="txtBox" placeholder="Click here to start typing" class="form-control" v-model="value" cols="30"
-      rows="10" v-on:keydown="keyPressed" @click="enableKeyboard"></textarea>
     <div class="container">
 
+      <Transition name="fade" mode="out-in">
+        >
+        <div class="virtual-keyboard" v-if="showKeyboard">
+          <div class="rowZero">
+            <input type="button" value="`" class="Backtick" id="Backtick" @click="pressSpacebar('`' , `Backtick`)"
+              v-if="!symbols_enabled">
+            <input type="button" value="~" class="Tilde" id="Tilde" v-if="symbols_enabled"
+              @click="pressSpacebar(`~`,`Tilde`)">
+            <input type="button" v-for="key in keys" :key="key" @click="press(key)" v-if="!symbols_enabled" :value="key"
+              :id="key" ref="key">
+            <input type="button" v-for="symbol in symbols" :key="symbol" @click="press(symbol)" v-if="symbols_enabled"
+              :value="symbol" :id="symbol" ref="key">
+            <input type="button" value="Backspace" class="Backspace" @click="pressSpacebar(`delete`,`Backspace`)"
+              id="Backspace">
+          </div>
+          <div class="rowOne">
+            <input type="button" id="Tab" value="Tab" @click="pressSpacebar(tab , `Tab`)">
+            <input type="button" :value="letter" v-if="smallcase" v-for="letter in letters[0]" :key="letter" ref="key"
+              @click="press(letter)" />
+            <input type="button" :value="letter" v-if="!smallcase" v-for="letter in letters_capital[0]" :key="letter"
+              ref="key" @click="press(letter)" />
+            <input type="button" value="[" class="SquareBracketOpen" id="SquareBracketOpen"
+              @click="pressSpacebar(`[` , `SquareBracketOpen`)" v-if="!symbols_enabled">
+            <input type="button" value="{" class="ParanthesisOpen" id="ParanthesisOpen"
+              @click="pressSpacebar(`{` , `ParanthesisOpen`)" v-if="symbols_enabled">
+            <input type="button" value="]" class="SquareBracketClose" id="SquareBracketClose"
+              @click="pressSpacebar(`]` , `SquareBracketClose`)" v-if="!symbols_enabled">
+            <input type="button" value="}" class="ParanthesisClose" id="ParanthesisClose"
+              @click="pressSpacebar(`}` , `ParanthesisClose`)" v-if="symbols_enabled">
 
-      <div class="virtual-keyboard" v-if="showKeyboard">
-        <div class="rowZero">
-          <input type="button" value="`" class="Backtick" id="Backtick" @click="pressSpacebar('`' , `Backtick`)"
-            v-if="!symbols_enabled">
-          <input type="button" value="~" class="Tilde" id="Tilde" v-if="symbols_enabled"
-            @click="pressSpacebar(`~`,`Tilde`)">
-          <input type="button" v-for="key in keys" :key="key" @click="press(key)" v-if="!symbols_enabled" :value="key"
-            :id="key" ref="key">
-          <input type="button" v-for="symbol in symbols" :key="symbol" @click="press(symbol)" v-if="symbols_enabled"
-            :value="symbol" :id="symbol" ref="key">
-          <input type="button" value="Backspace" class="Backspace" @click="pressSpacebar(`delete`,`Backspace`)"
-            id="Backspace">
+            <input type="button" value="\" class="Backslash" id="Backslash" @click="pressSpacebar(`\\` , `Backslash`)"
+              v-if="!symbols_enabled">
+            <input type="button" value="|" class="Pipe" id="Pipe" @click="pressSpacebar(`|` , `Pipe`)"
+              v-if="symbols_enabled">
+          </div>
+          <div class=" rowTwo">
+            <input type="button" @click="toggleLetters()" id="Capslock" value="Capslock">
+            <input type="button" :value="letter" v-if="smallcase" v-for="letter in letters[1]" :key="letter" ref="key"
+              @click="press(letter)" />
+            <input type="button" :value="letter" v-if="!smallcase" v-for="letter in letters_capital[1]" :key="letter"
+              ref="key" @click="press(letter)" />
+
+
+
+            <input type="button" value=";" class="Semicolon" id="Semicolon" @click="pressSpacebar(';' , `Semicolon`)"
+              v-if="!symbols_enabled">
+            <input type="button" value=":" class="Colon" id="Colon" @click="pressSpacebar(':' , `Colon`)"
+              v-if="symbols_enabled">
+            <input type="button" value="'" class="Singlequote" id="Singlequote"
+              @click="pressSpacebar('\'' , `Singlequote`)" v-if="!symbols_enabled">
+            <input type="button" :value="doublequote" class="Doublequote" id="Doublequote"
+              @click="pressSpacebar(doublequote , `Doublequote`)" v-if="symbols_enabled">
+
+
+            <input type="button" @click="pressSpacebar('\r\n' , `Enter`)" id="Enter" value="Enter">
+          </div>
+          <div class="rowThree">
+            <input type="button" :value="letter" v-if="smallcase" v-for="letter in letters[2]" :key="letter" ref="key"
+              @click="press(letter)" />
+            <input type="button" :value="letter" v-if="!smallcase" v-for="letter in letters_capital[2]" :key="letter"
+              ref="key" @click="press(letter)" />
+            <input type="button" value="," class="Comma" id="Comma" @click="pressSpacebar(',' , `Comma`)"
+              v-if="!symbols_enabled">
+            <input type="button" value="<" class="Lessthan" id="Lessthan" @click="pressSpacebar('<' , `Lessthan`)"
+              v-if="symbols_enabled">
+
+            <input type="button" value="." class="Fullstop" id="Fullstop" @click="pressSpacebar(',' , `Fullstop`)"
+              v-if="!symbols_enabled">
+            <input type="button" value=">" class="Greaterthan" id="Greaterthan"
+              @click="pressSpacebar('<' , `Greaterthan`)" v-if="symbols_enabled">
+
+
+            <input type="button" value="/" class="Forwardslash" id="Forwardslash"
+              @click="pressSpacebar('/' , `Forwardslash`)" v-if="!symbols_enabled">
+            <input type="button" value="?" class="Questionmark" id="Questionmark"
+              @click="pressSpacebar('?' , `Questionmark`)" v-if="symbols_enabled">
+            <input type="button" @click="toggle()" id="Shift" value="Shift">
+            <input type="button" @click="disableKeyboard(`Poweroff`)" id="Poweroff" value="Close Keyboard">
+          </div>
+          <div class="rowSpace spacebar">
+            <input type="button" value="Spacebar" id="Space" @click="pressSpacebar(space , `Space`)">
+          </div>
         </div>
-        <div class="rowOne">
-          <input type="button" id="Tab" value="Tab" @click="pressSpacebar(tab , `Tab`)">
-          <input type="button" :value="letter" v-if="smallcase" v-for="letter in letters[0]" :key="letter" ref="key"
-            @click="press(letter)" />
-          <input type="button" :value="letter" v-if="!smallcase" v-for="letter in letters_capital[0]" :key="letter"
-            ref="key" @click="press(letter)" />
-          <input type="button" value="[" class="SquareBracketOpen" id="SquareBracketOpen"
-            @click="pressSpacebar(`[` , `SquareBracketOpen`)" v-if="!symbols_enabled">
-          <input type="button" value="{" class="ParanthesisOpen" id="ParanthesisOpen"
-            @click="pressSpacebar(`{` , `ParanthesisOpen`)" v-if="symbols_enabled">
-          <input type="button" value="]" class="SquareBracketClose" id="SquareBracketClose"
-            @click="pressSpacebar(`]` , `SquareBracketClose`)" v-if="!symbols_enabled">
-          <input type="button" value="}" class="ParanthesisClose" id="ParanthesisClose"
-            @click="pressSpacebar(`}` , `ParanthesisClose`)" v-if="symbols_enabled">
-
-          <input type="button" value="\" class="Backslash" id="Backslash" @click="pressSpacebar(`\\` , `Backslash`)"
-            v-if="!symbols_enabled">
-          <input type="button" value="|" class="Pipe" id="Pipe" @click="pressSpacebar(`|` , `Pipe`)"
-            v-if="symbols_enabled">
-        </div>
-        <div class=" rowTwo">
-          <input type="button" @click="toggleLetters()" id="Capslock" value="Capslock">
-          <input type="button" :value="letter" v-if="smallcase" v-for="letter in letters[1]" :key="letter" ref="key"
-            @click="press(letter)" />
-          <input type="button" :value="letter" v-if="!smallcase" v-for="letter in letters_capital[1]" :key="letter"
-            ref="key" @click="press(letter)" />
-
-
-
-          <input type="button" value=";" class="Semicolon" id="Semicolon" @click="pressSpacebar(';' , `Semicolon`)"
-            v-if="!symbols_enabled">
-          <input type="button" value=":" class="Colon" id="Colon" @click="pressSpacebar(':' , `Colon`)"
-            v-if="symbols_enabled">
-          <input type="button" value="'" class="Singlequote" id="Singlequote"
-            @click="pressSpacebar('\'' , `Singlequote`)" v-if="!symbols_enabled">
-          <input type="button" :value="doublequote" class="Doublequote" id="Doublequote"
-            @click="pressSpacebar(doublequote , `Doublequote`)" v-if="symbols_enabled">
-
-
-          <input type="button" @click="pressSpacebar('\r\n' , `Enter`)" id="Enter" value="Enter">
-        </div>
-        <div class="rowThree">
-          <input type="button" :value="letter" v-if="smallcase" v-for="letter in letters[2]" :key="letter" ref="key"
-            @click="press(letter)" />
-          <input type="button" :value="letter" v-if="!smallcase" v-for="letter in letters_capital[2]" :key="letter"
-            ref="key" @click="press(letter)" />
-          <input type="button" value="," class="Comma" id="Comma" @click="pressSpacebar(',' , `Comma`)"
-            v-if="!symbols_enabled">
-          <input type="button" value="<" class="Lessthan" id="Lessthan" @click="pressSpacebar('<' , `Lessthan`)"
-            v-if="symbols_enabled">
-
-          <input type="button" value="." class="Fullstop" id="Fullstop" @click="pressSpacebar(',' , `Fullstop`)"
-            v-if="!symbols_enabled">
-          <input type="button" value=">" class="Greaterthan" id="Greaterthan"
-            @click="pressSpacebar('<' , `Greaterthan`)" v-if="symbols_enabled">
-
-
-          <input type="button" value="/" class="Forwardslash" id="Forwardslash"
-            @click="pressSpacebar('/' , `Forwardslash`)" v-if="!symbols_enabled">
-          <input type="button" value="?" class="Questionmark" id="Questionmark"
-            @click="pressSpacebar('?' , `Questionmark`)" v-if="symbols_enabled">
-          <input type="button" @click="toggle()" id="Shift" value="Shift">
-          <input type="button" @click="disableKeyboard(`Poweroff`)" id="Poweroff" value="Close Keyboard">
-        </div>
-        <div class="rowSpace spacebar">
-          <input type="button" value="Spacebar" id="Space" @click="pressSpacebar(space , `Space`)">
-        </div>
-      </div>
+      </Transition>
     </div>
+
   </div>
 </template>
 
 <script>
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import _ from "lodash";
 
@@ -123,6 +129,8 @@ export default {
     enableKeyboard() {
       document.getElementById('txtBox').focus();
       this.showKeyboard = true
+
+
     },
     disableKeyboard(id) {
       this.highlightById(id)
@@ -296,6 +304,7 @@ export default {
         this.highlightById(id)
         document.getElementById('txtBox').focus();
         this.value = this.value + '\r\n';
+
       }
       if (id === "Backtick") {
         document.getElementById('txtBox').focus();
@@ -393,21 +402,49 @@ export default {
       return index;
     },
   },
+  watch: {
+    value: function () {
+      console.log("running value")
+      var textarea = document.querySelector("#txtBox");
+      console.log(textarea)
+      textarea.addEventListener('input', autoResize);
+
+      function autoResize() {
+        console.log("running autoresize")
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+        console.log("height", this.style.height)
+      }
+
+    }
+  }
 
 };
 </script>
 
 <style scoped>
-.virtual-keyboard {
-  padding: 1em;
+.fade-enter-active {
+  transition: all .3s ease;
+}
 
+.fade-leave-active {
+  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.fade-enter,
+.fade-leave-to {
+  transform: translateY(10px);
+  opacity: 0;
 }
 
 #txtbox {
   white-space: pre-line;
   overflow: scroll;
+  border-radius: 50px;
 
 }
+
+
 
 #txtBox:focus {
   box-shadow: none;
@@ -420,11 +457,22 @@ export default {
   margin: 25px;
   text-align: center;
   background: #000;
+
+
 }
 
 h1 {
   color: #26abde;
 }
+
+.container {
+  position: relative;
+  margin-left: 5.5em;
+  border-radius: 10px;
+
+
+}
+
 
 .virtual-keyboard .row {
   text-align: center;
@@ -439,6 +487,7 @@ h1 {
 .virtual-keyboard input[type='button'] {
   padding: 10px 20px;
   margin: 2px;
+
   border-radius: 5px;
   border: 3px solid #202c2b;
   background: #1b1b1b;
@@ -482,5 +531,12 @@ h1 {
 
 #Space {
   width: 50%;
+}
+
+.inputfield {
+  background-color: #00ffbf;
+  height: auto;
+  padding: 2em;
+  border-radius: 10px;
 }
 </style>

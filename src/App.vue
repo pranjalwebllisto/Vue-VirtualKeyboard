@@ -4,7 +4,9 @@
       <div class="form-group mt-5">
         <label for="txtBox"> </label>
       </div>
-      <Keyboard></Keyboard>
+      <div class="keyboard">
+        <Keyboard></Keyboard>
+      </div>
     </div>
   </div>
 </template>
@@ -26,5 +28,15 @@ export default {
 <style scoped>
 .container {
   max-width: 100%;
+
 }
+
+/* #app {
+  background-color: #00ff80;
+
+}
+
+.keyboard {
+  background-color: #00ff80;
+} */
 </style>
