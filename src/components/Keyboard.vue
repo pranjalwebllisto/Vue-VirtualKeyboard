@@ -62,8 +62,8 @@
           <input type="button" @click="pressSpacebar('\r\n' , `Enter`)" id="Enter" value="Enter">
         </div>
         <div class="rowThree">
-          <input type="button" :valconsole.log(this.value)ue="letter" v-if="smallcase" v-for="letter in letters[2]"
-            :key="letter" ref="key" @click="press(letter)" />
+          <input type="button" :value="letter" v-if="smallcase" v-for="letter in letters[2]" :key="letter" ref="key"
+            @click="press(letter)" />
           <input type="button" :value="letter" v-if="!smallcase" v-for="letter in letters_capital[2]" :key="letter"
             ref="key" @click="press(letter)" />
           <input type="button" value="," class="Comma" id="Comma" @click="pressSpacebar(',' , `Comma`)"
