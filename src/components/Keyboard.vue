@@ -4,10 +4,12 @@
       <h2 class="heading-secondary">Virtual keyboard</h2>
     </div>
     <div class="inputfield">
-      <textarea id="txtBox" placeholder="Click here to start typing" class="form-control" v-model="value" cols="30"
-        rows="3" v-on:keydown="keyPressed" @click="enableKeyboard"></textarea>
+      <textarea id="txtBox" placeholder="Click here to start typing"
+        class="form-control whitespace-pre-line overflow-scroll rounded-3xl" v-model="value" cols="30" rows="3"
+        v-on:keydown="keyPressed" @click="enableKeyboard"></textarea>
     </div>
 
+    <!-- <div class="m-25 text-center bg-black relative ml-88 rounded"> -->
     <div class="container">
 
       <Transition name="fade" mode="out-in">
@@ -64,7 +66,7 @@
               @click="pressSpacebar(doublequote , `Doublequote`)" v-if="symbols_enabled">
 
 
-            <input type="button" @click="pressSpacebar('\r\n' , `Enter`)" id="Enter" value="    Enter    ">
+            <input type="button" @click="pressSpacebar('\r\n' , `Enter`)" id="Enter" value="  Enter    ">
           </div>
           <div class="rowThree">
             <input type="button" :value="letter" v-if="smallcase" v-for="letter in letters[2]" :key="letter" ref="key"

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="container">
+    <div class="max-w-full">
       <div class="form-group mt-5">
         <label for="txtBox"> </label>
       </div>
@@ -34,9 +34,9 @@ export default {
 /* #app {
   background-color: #00ff80;
 
-}
+} */
 
-.keyboard {
+/* .keyboard {
   background-color: #00ff80;
 } */
 </style>
